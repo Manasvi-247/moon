@@ -6,25 +6,32 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Determine if running in production
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Custom CORS logic
 const allowedOrigins = [
-  'http://127.0.0.1:5500',                
-  'https://moon-seven-amber.vercel.app', 
+  'http://127.0.0.1:5500',
+  'http://localhost:3000',
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like Postman or curl)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = `CORS policy: Origin ${origin} is not allowed`;
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  },
+const customCorsOptions = {
+  origin: isProduction
+    ? '*' // Allow all origins in production
+    : function (origin, callback) {
+        // Allow requests with no origin (Postman, curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+          const msg = `CORS policy: Origin ${origin} is not allowed.`;
+          return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+      },
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
 
+app.use(cors(customCorsOptions));
 app.use(express.json());
 
 const app_id = process.env.APP_ID;
