@@ -7,7 +7,7 @@ const dateInput = document.getElementById('date');
 
   async function fetchMoonPhase(date) {
     try {
-      const response = await fetch('http://localhost:3000/moon-phase', {
+      const response = await fetch('https://moon-1.onrender.com/moon-phase', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ date })
