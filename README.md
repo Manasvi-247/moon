@@ -33,7 +33,7 @@ MoonMapper is a simple and elegant web app that shows you the **moon phase image
 
 ## 📸 Screenshot
 
-![MoonMapper Screenshot](screenshot.png)
+![MoonMapper Screenshot](frontend/screenshot.png)
 
 ---
 
